@@ -8,13 +8,10 @@ def load_words():
     return [word.strip() for word in words]
 
 
-def score_letter(ltr):
+def score_letter(letter):
     """Return the score for the given letter (if any) using
     imported constant mapping LETTER_SCORES"""
-    try:
-        return LETTER_SCORES[ltr.upper()]
-    except:
-        return 0
+    return LETTER_SCORES.get(letter.upper(), 0)
 
 
 def score_word(word):
@@ -25,8 +22,8 @@ def score_word(word):
 def max_word_value(word_list=load_words()):
     """Calculate the word with the max value, can receive a list
     of words as arg, if none provided uses default DICTIONARY"""
-    scored_words = [(score_word(word), word) for word in word_list]
-    return max(scored_words)[1]
+    scored_words = {word: score_word(word) for word in word_list}
+    return max(scored_words.items(), key=lambda i: i[1])[0]
 
 
 calc_word_value = score_word
